@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useContext, useEffect, useState } from "react";
+import { ConfigProvider, theme } from "antd";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import CSCalendar from "./components/CSCalendar";
+import { ThemeContext } from "./store/ThemeContext";
+import FloatButtonSection from "./components/FloatButtonSection";
+import AnnouncementModule from "./components/AnnouncementModule";
+import Toastify from "./components/Toastify";
 
-function App() {
-  const [count, setCount] = useState(10)
+const App = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [toastifyObj, setToastifyObj] = useState("");
+    
+    const [addToCurrentWeek, setAddToCurrentWeek] = useState(0);
+    const [announcementData, setAnnouncementData] = useState({
+        startWeekDate: "",
+        endWeekDate: "",
+        firstEventDate: "",
+        secondEventDate: "",
+        firstEvent: "",
+        secondEvent: "",
+    });
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React 2</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    const { theme: currentTheme } = useContext(ThemeContext);
 
-export default App
+    return (
+        <ConfigProvider
+            theme={{
+                algorithm:
+                    currentTheme === "dark"
+                        ? theme.darkAlgorithm
+                        : theme.defaultAlgorithm,
+            }}
+        >
+            <Toastify toastifyObj={toastifyObj} />
+            <Header />
+            <CSCalendar
+                setAnnouncementData={setAnnouncementData}
+                addToCurrentWeek={addToCurrentWeek}
+            />
+            <Footer />
+            <FloatButtonSection setIsModalOpen={setIsModalOpen} />
+            <ConfigProvider direction={"rtl"}>
+                <AnnouncementModule
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                    setToastifyObj={setToastifyObj}
+                    announcementData={announcementData}
+                    setAddToCurrentWeek={setAddToCurrentWeek}
+                />
+            </ConfigProvider>
+        </ConfigProvider>
+    );
+};
+
+export default App;

@@ -1,0 +1,14 @@
+.page-footer {
+    width: 100%;
+    background-color: var(--footer-bg-color);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 56px;
+    font-size: 24px;
+    color: var(--text-color);
+    text-decoration: none;
+    font-family: sans-serif;
+    font-size: 21px;
+}

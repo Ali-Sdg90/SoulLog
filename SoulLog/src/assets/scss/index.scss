@@ -1,0 +1,37 @@
+@use "../fonts/Vazirmatn/fonts.css";
+@use "components/all";
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    transition: background-color 0.25s, color 0.25s !important;
+    font-family: "Vazirmatn" !important;
+}
+
+body {
+    height: 100vh !important;
+    height: 100svh !important;
+    overflow-y: hidden;
+    min-width: 780px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+
+    &-track {
+        background-color: var(--bg-color);
+    }
+
+    &-thumb {
+        background-color: var(--thumb-bg-color);
+        border-radius: 10px;
+
+        &:hover {
+            background-color: rgb(155, 155, 155);
+        }
+    }
+}
