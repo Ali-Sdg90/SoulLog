@@ -3,6 +3,10 @@
 **Description:**  
 SoulLog is a cross-platform personal daily log and calendar app designed to track your daily life in detail. It provides a unified experience on **Windows desktop** and **mobile devices**, while keeping the core logic and state shared across platforms. The app is intuitive and visually appealing, making daily logging a pleasant experience.
 
+## Vision
+
+SoulLog is more than just a diary—it’s a “soul tracker” that helps users reflect on their daily life while combining modern design and cross-platform accessibility.
+
 ## Features
 
 -   **Daily Logging:**
@@ -36,6 +40,3 @@ SoulLog is a cross-platform personal daily log and calendar app designed to trac
 
 -   **Customizable & Stylish:** SASS-based theming and sleek animations with Framer Motion.
 
-## Vision
-
-SoulLog is more than just a diary—it’s a “soul tracker” that helps users reflect on their daily life while combining modern design and cross-platform accessibility.
