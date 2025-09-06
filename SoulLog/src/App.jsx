@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { ConfigProvider, theme } from "antd";
 import Header from "./components/Header";
 import Footer from "./components/Footer";

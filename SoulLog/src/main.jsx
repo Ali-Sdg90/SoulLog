@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./assets/scss/index.scss";
 import App from "./App";
-import { ThemeProvider } from "./store/ThemeContext";
+import { ThemeProvider } from "./store/ThemeProvider";
 
 // Built with love for the bright future of the CS Internship ♡
 

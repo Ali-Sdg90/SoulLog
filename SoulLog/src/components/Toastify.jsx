@@ -8,27 +8,27 @@ const Toastify = ({ toastifyObj }) => {
 
     useEffect(() => {
         if (toastifyObj?.mode) {
+            const notify = ({ title, mode }) => {
+                if (!toast[mode]) {
+                    console.error(`Invalid toast mode: ${mode}`);
+                    return;
+                }
+
+                toast[mode](title, {
+                    position: "top-right",
+                    autoClose: 4000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: currentTheme,
+                });
+            };
+
             notify(toastifyObj);
         }
-    }, [toastifyObj]);
-
-    const notify = ({ title, mode }) => {
-        if (!toast[mode]) {
-            console.error(`Invalid toast mode: ${mode}`);
-            return;
-        }
-
-        toast[mode](title, {
-            position: "top-right",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: { currentTheme },
-        });
-    };
+    }, [toastifyObj, currentTheme]);
 
     return (
         <div>
