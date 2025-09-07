@@ -39,27 +39,4 @@ thead {
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid var(--calendar-border-color);
-    border-collapse: collapse;
-}
-
-.ant-alert {
-    margin: 20px 60px;
-    border-radius: 10px;
-    height: 50px;
-}
-
-.ant-select {
-    width: 80px;
-}
-
-.event-description {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .event-calender-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
 }

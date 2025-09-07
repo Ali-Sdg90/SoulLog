@@ -1,0 +1,30 @@
+.app-main-layout {
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 64px - 64px);
+    overflow: auto;
+
+    .sidebar {
+        border-right: 2px solid var(--calendar-border-color);
+        position: relative;
+        overflow: auto;
+    }
+
+    .sidebar-handler {
+        width: 4px;
+        cursor: col-resize;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 100;
+
+        &:hover {
+            background-color: var(--calendar-border-color);
+        }
+        &:active {
+            background-color: var(--calendar-border-color);
+            filter: brightness(1.2);
+        }
+    }
+}

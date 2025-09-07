@@ -38,7 +38,7 @@ const Header = () => {
                 >
                     -
                 </div>
-                <div className={"header-title"}>CS-Queue-Calendar</div>
+                <div className={"header-title"}>{"Ali"} October Soul Log</div>
                 <div
                     className={!EEClicked[1] ? "header-ICARUS" : ""}
                     onClick={() => clickOnEE(1)}

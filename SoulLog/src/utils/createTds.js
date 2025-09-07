@@ -1,3 +1,5 @@
+import moment from "moment-jalaali";
+
 export const createTds = () => {
     const tds = document.querySelectorAll("td");
 
@@ -8,8 +10,6 @@ export const createTds = () => {
     tds.forEach((td) => {
         const gregorianDate = td.title;
         if (gregorianDate) {
-            const moment = require("moment-jalaali");
-
             const persianDate = moment(gregorianDate, "YYYY-MM-DD")
                 .locale("fa")
                 .format("jYYYY/jMM/jDD");

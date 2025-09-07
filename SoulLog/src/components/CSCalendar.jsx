@@ -1,70 +1,27 @@
 import React, { useEffect, useState } from "react";
-import {
-    Alert,
-    Calendar,
-    Button,
-    Badge,
-    Select,
-    ConfigProvider,
-    Flex,
-} from "antd";
+import { Calendar, Button, Select, ConfigProvider, Flex, Alert } from "antd";
 import dayjs from "dayjs";
 import "dayjs/locale/fa";
 import weekday from "dayjs/plugin/weekday";
 import localeData from "dayjs/plugin/localeData";
-import moment from "jalali-moment";
-import { createTds } from "../utils/createTds";
-import { events } from "../constants/events";
-import { startCalendarDate } from "../constants/startCalendarDate";
 import { persianWeekDays } from "../constants/persianWeekDays";
-import { useIsMobile } from "./useIsMobile";
-import CalendarEventCreator from "./CalendarEventCreator";
+import { logs } from "../constants/logs";
+import { createTds } from "./../utils/createTds";
 
-moment.locale("fa");
 dayjs.locale("fa");
 dayjs.extend(weekday);
 dayjs.extend(localeData);
 
-const CSCalendar = ({ setAnnouncementData, addToCurrentWeek }) => {
+const CSCalendar = () => {
     const today = dayjs();
-
     const [value, setValue] = useState(today);
-    const [eventDescription, setEventDescription] = useState("");
+    const [selectedLog, setSelectedLog] = useState(null);
     const [yearMonth, setYearMonth] = useState("");
-
-    const isMobile = useIsMobile();
-
-    const getEventForDate = (date) => {
-        const startDate = dayjs(startCalendarDate);
-
-        if (date.isBefore(startDate, "day")) {
-            return null;
-        }
-
-        const daysSinceStart = date.diff(startDate, "day");
-        const weekNumber = Math.floor(daysSinceStart / 7) % 2;
-
-        if (date.day() === 2) {
-            return events[weekNumber];
-        } else if (date.day() === 0) {
-            return events[2 + weekNumber];
-        }
-        return null;
-    };
 
     const onSelect = (newValue) => {
         setValue(newValue);
-        const event = getEventForDate(newValue);
-
-        if (event) {
-            setEventDescription(
-                isMobile
-                    ? `${event.title} - ساعت ۱۸:۰۰ تا ۱۹:۰۰`
-                    : `${event.fullName} - ساعت ۱۸:۰۰ تا ۱۹:۰۰`
-            );
-        } else {
-            setEventDescription("برای این تاریخ رویدادی وجود ندارد.");
-        }
+        const log = logs[newValue.format("YYYY-MM-DD")];
+        setSelectedLog(log || null);
     };
 
     const onPanelChange = (newValue) => {
@@ -76,83 +33,25 @@ const CSCalendar = ({ setAnnouncementData, addToCurrentWeek }) => {
     };
 
     const dateCellRender = (date) => {
-        const event = getEventForDate(date);
-        return event ? (
-            <Badge
-                status="success"
-                text={isMobile ? `${event.title}` : `${event.fullName}`}
-            />
-        ) : null;
+        const log = logs[date.format("YYYY-MM-DD")];
+        if (!log) return null;
+        return (
+            <div className="day-log">
+                <div>{log.mood}</div>
+                <div>🛏 {log.sleep}h</div>
+                <div>⭐ {log.dailyScore}</div>
+            </div>
+        );
     };
 
     useEffect(() => {
+        console.log("Year-Month changed:", yearMonth);
         return () => {
             setTimeout(() => {
                 createTds();
             }, 0);
         };
     }, [yearMonth]);
-
-    useEffect(() => {
-        const saturdayDate = moment()
-            .add(addToCurrentWeek, "day")
-            .startOf("week");
-
-        // console.log("saturdayDate >>", saturdayDate);
-
-        const startWeekDate = saturdayDate
-            .clone()
-            .add(9, "day")
-            .format("YYYY/M/D");
-
-        const endWeekDate = saturdayDate
-            .clone()
-            .add(16, "day")
-            .format("YYYY/M/D");
-
-        const firstEventDate = saturdayDate
-            .clone()
-            .add(10, "day")
-            .format("YYYY/M/D");
-        const secondEventDate = saturdayDate
-            .clone()
-            .add(15, "day")
-            .format("YYYY/M/D");
-
-        const startDate = moment("2025-01-13", "YYYY-MM-DD")
-            .locale("fa")
-            .format("YYYY-MM-DD HH:mm:ss");
-
-        let firstEvent = "برای این تاریخ رویدادی وجود ندارد.";
-        let secondEvent = "برای این تاریخ رویدادی وجود ندارد.";
-
-        if (saturdayDate.isAfter(startDate, "day")) {
-            firstEvent = getEventForDate(
-                dayjs(saturdayDate.clone().add(10, "day").toDate())
-            ).fullName;
-            secondEvent = getEventForDate(
-                dayjs(saturdayDate.clone().add(15, "day").toDate())
-            ).fullName;
-        }
-
-        const newAnnouncementData = {
-            startWeekDate,
-            endWeekDate,
-            firstEventDate,
-            secondEventDate,
-            firstEvent,
-            secondEvent,
-        };
-
-        // console.log("newAnnouncementData >>", newAnnouncementData);
-
-        setAnnouncementData((prev) => {
-            if (JSON.stringify(prev) !== JSON.stringify(newAnnouncementData)) {
-                return newAnnouncementData;
-            }
-            return prev;
-        });
-    }, [addToCurrentWeek, setAnnouncementData]);
 
     useEffect(() => {
         const tableHeaderItems = Array.from(
@@ -165,7 +64,6 @@ const CSCalendar = ({ setAnnouncementData, addToCurrentWeek }) => {
 
         document.querySelector(".today-btn").click();
     }, []);
-
     useEffect(() => {
         const currentMonth = value.month();
         const currentYear = value.year();
@@ -266,26 +164,24 @@ const CSCalendar = ({ setAnnouncementData, addToCurrentWeek }) => {
             />
 
             <ConfigProvider direction={"rtl"}>
-                <Alert
-                    message={
-                        <div className="event-description">
-                            <div className="event-title">
-                                {eventDescription}
+                {selectedLog && (
+                    <Alert
+                        message={
+                            <div className="log-description">
+                                <p>حال و هوا: {selectedLog.mood}</p>
+                                <p>ساعت خواب: {selectedLog.sleep}</p>
+                                <p>انرژی: {selectedLog.energy}</p>
+                                <p>استرس: {selectedLog.stress}</p>
+                                <p>امتیاز روز: {selectedLog.dailyScore}</p>
+                                {selectedLog.notes && (
+                                    <p>یادداشت: {selectedLog.notes}</p>
+                                )}
                             </div>
-
-                            {eventDescription !==
-                                "برای این تاریخ رویدادی وجود ندارد." && (
-                                <CalendarEventCreator
-                                    eventDate={value.format("YYYY-MM-DD")}
-                                    eventText={eventDescription}
-                                    className="event-calender-btn"
-                                />
-                            )}
-                        </div>
-                    }
-                    type="info"
-                    showIcon
-                />
+                        }
+                        type="info"
+                        showIcon
+                    />
+                )}
             </ConfigProvider>
         </>
     );
