@@ -1,14 +1,14 @@
 import React, { useContext, useState } from "react";
 import { ConfigProvider, theme } from "antd";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import CSCalendar from "./components/CSCalendar";
-import { ThemeContext } from "./store/Theme/ThemeContext";
-import FloatButtonSection from "./components/FloatButtonSection";
-import AnnouncementModule from "./components/AnnouncementModule";
-import Toastify from "./components/Toastify";
-import SidebarContent from "./components/SidebarContent";
-import PageMenu from "./components/PageMenu";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import CSCalendar from "../components/CSCalendar";
+import { ThemeContext } from "../store/Theme/ThemeContext";
+import FloatButtonSection from "../components/FloatButtonSection";
+import AnnouncementModule from "../components/AnnouncementModule";
+import Toastify from "../components/Toastify";
+import SidebarContent from "../components/SidebarContent";
+import PageMenu from "../components/PageMenu";
 
 const HomePage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,7 +34,7 @@ const HomePage = () => {
     const handleMouseMove = (e) => {
         if (isResizing) {
             const newWidth = e.clientX;
-            if (newWidth > 150 && newWidth < 600) {
+            if (newWidth > 300 && newWidth < 600) {
                 setSidebarWidth(newWidth);
             }
         }
